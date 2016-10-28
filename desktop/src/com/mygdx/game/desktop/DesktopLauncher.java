@@ -7,8 +7,8 @@ import com.mygdx.game.CatNin;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 800;
-		config.height = 800;
+		config.width = CatNin.WIDTH;
+	    config.height = CatNin.HEIGHT;
 		new LwjglApplication(new CatNin(), config);
 	}
 }

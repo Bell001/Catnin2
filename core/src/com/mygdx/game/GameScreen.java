@@ -5,42 +5,54 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen extends ScreenAdapter {
-	private CatNin catNin;
+	private CatNin catNin;   
 	private Texture NinjaCat;
-	private int x;
-    private int y;
+	private Cat cat;
+	World world;
+	WorldRenderer worldRenderer;
  
 	 
     public GameScreen(CatNin catNin) {
-        this.catNin = catNin;
-        NinjaCat = new Texture("Ninja-Cat1.png");
-        x = 700;
-        y = 400;
+    	this.catNin = catNin;
+        world = new World(catNin);
+        worldRenderer = new WorldRenderer(catNin,world);
     }
     
     @Override
     public void render(float delta) {
+    	
     	update(delta);
-    	SpriteBatch batch = catNin.batch;
-        batch.begin();
+    	
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.draw(NinjaCat, x, y);
-        batch.end();
+        
+        worldRenderer.render(delta);
         
     }
     
     private void update(float delta) {
-    	if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-            x -= 5;
-        }
-        if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            x += 5;
-        }
+    	updatePacmanDirection();
+    	world.update(delta);
     }
     
+    private void updatePacmanDirection() {
+    	Cat cat = world.getCat();
+    	if(Gdx.input.isKeyPressed(Keys.UP)) {
+    		cat.setNextDirection(Cat.DIRECTION_UP);
+        }
+    	if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+    		cat.setNextDirection(Cat.DIRECTION_DOWN);
+        }
+    	if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+    		cat.setNextDirection(Cat.DIRECTION_RIGHT);
+        }
+    	if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+    		cat.setNextDirection(Cat.DIRECTION_LEFT);
+        }
+    }   
   
 }
 

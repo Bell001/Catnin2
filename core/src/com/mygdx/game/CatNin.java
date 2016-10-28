@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class CatNin extends Game {
+	public static final int HEIGHT = 600;
+	public static final int WIDTH = 800;
 	private CatNin catNin;
 	public SpriteBatch batch;
 	
