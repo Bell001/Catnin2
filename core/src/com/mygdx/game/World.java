@@ -7,7 +7,7 @@ public class World {
  
     World(CatNin catNin) {
     	maze = new Maze();
-        cat = new Cat(60,60,maze);
+        cat = new Cat(100,100,maze);
         this.catNin = catNin;
     }
           

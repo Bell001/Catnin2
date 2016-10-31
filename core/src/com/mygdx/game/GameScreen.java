@@ -42,15 +42,14 @@ public class GameScreen extends ScreenAdapter {
     	Cat cat = world.getCat();
     	if(Gdx.input.isKeyPressed(Keys.UP)) {
     		cat.setNextDirection(Cat.DIRECTION_UP);
-        }
-    	if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+        }else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
     		cat.setNextDirection(Cat.DIRECTION_DOWN);
-        }
-    	if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+        }else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
     		cat.setNextDirection(Cat.DIRECTION_RIGHT);
-        }
-    	if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+        }else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
     		cat.setNextDirection(Cat.DIRECTION_LEFT);
+        }else {
+        	cat.setNextDirection(cat.DIRECTION_STILL);
         }
     }   
   

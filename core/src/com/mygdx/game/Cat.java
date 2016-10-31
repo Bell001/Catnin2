@@ -50,16 +50,19 @@ public class Cat {
 	    	int newRow = DIR_OFFSETS[dir][1]+getRow();  
 	        int newCol = DIR_OFFSETS[dir][0]+getColumn(); 
 	        
-	        if(newRow <= 0 || newCol<= 0)
-	        {
+	        if(newRow <= 0 || newCol<= 0){
 	        	return false;
-	        }
-	        else if(maze.hasWallAt(newRow,newCol))
-	        {
+	        } else if(maze.ShadowAtRight(newRow,newCol)){
 	            return false;
-	        }
-	        else 
-	        {
+	        } else if(maze.ShadowAtLeft(newRow,newCol)){
+	            return false;
+	        } else if(maze.ShadowAtDown(newRow,newCol)){
+	            return false;
+	        } else if(maze.ShadowAtUp(newRow,newCol)){
+	            return false;
+	        } else if(maze.ShadowAtCorner(newRow,newCol)){
+	            return false;
+	        } else {
 	            return true;
 	        }
 	    }
@@ -76,24 +79,17 @@ public class Cat {
 	  
 	 }
 	 
-	 public boolean isAtCenter() {
-	        int blockSize = WorldRenderer.BLOCK_SIZE;
-	 
-	        return ((((int)position.x - blockSize/2) % blockSize) == 0) &&
-	                ((((int)position.y - blockSize/2) % blockSize) == 0);
-	    }
-	 
 	 
 	 public void update() {
-	        if(isAtCenter()) {
+	        if(true) {
 	            	if(canMoveInDirection(nextDirection)) {
 	                    currentDirection = nextDirection;
 	                    
 	                } else {
-	                    currentDirection = DIRECTION_STILL;    
+	                    currentDirection = DIRECTION_STILL; 
+	                    
 	                }
-	        }
-	        position.x += SPEED * DIR_OFFSETS[currentDirection][0];
-	        position.y += SPEED * DIR_OFFSETS[currentDirection][1];       
+	        } 
+	        move(currentDirection);     
 	 }	 
 }

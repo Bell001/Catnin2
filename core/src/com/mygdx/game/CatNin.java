@@ -13,11 +13,12 @@ public class CatNin extends Game {
 	private CatNin catNin;
 	public SpriteBatch batch;
 	
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();	
 	    setScreen(new GameScreen(this));
-	
+	    
 	}
 
 	@Override
@@ -27,7 +28,6 @@ public class CatNin extends Game {
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		
+		batch.dispose();		
 	}
 }
