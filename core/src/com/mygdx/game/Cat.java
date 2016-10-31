@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Cat {
 	 private Vector2 position;
 	 private CatNin catNin;
+	 private World world;
 	 private Maze maze;
 	 private int currentDirection;
 	 private int nextDirection;
@@ -22,6 +23,18 @@ public class Cat {
 	        {-1,0}
 	    };
 	 
+	 public Cat(int x, int y, Maze maze) {
+	        position = new Vector2(x,y);
+	        currentDirection = DIRECTION_STILL;
+	        nextDirection = DIRECTION_STILL;
+	        this.maze = maze;
+	       
+	 }  
+	 
+	 public Vector2 getPosition() {
+	        return position;    
+	 }
+	 
 	 private int getRow() {
 	        return ((int)position.y) / WorldRenderer.BLOCK_SIZE; 
 	    }
@@ -29,32 +42,38 @@ public class Cat {
 	 private int getColumn() {
 	        return ((int)position.x) / WorldRenderer.BLOCK_SIZE; 
 	    }
+	 
+	 
 	
 	 private boolean canMoveInDirection(int dir) {
-	        int newRow = 0;
-	        int newCol = 0;
-	        return true;
+	
+	    	int newRow = DIR_OFFSETS[dir][1]+getRow();  
+	        int newCol = DIR_OFFSETS[dir][0]+getColumn(); 
+	        
+	        if(newRow <= 0 || newCol<= 0)
+	        {
+	        	return false;
+	        }
+	        else if(maze.hasWallAt(newRow,newCol))
+	        {
+	            return false;
+	        }
+	        else 
+	        {
+	            return true;
+	        }
 	    }
 	    
-	 public Cat(int x, int y, Maze maze) {
-		   
-	        position = new Vector2(x,y);
-	        currentDirection = DIRECTION_STILL;
-	        nextDirection = DIRECTION_STILL;
-	        this.maze = maze;
-	 }   
+	
 	 
 	 public void setNextDirection(int dir) {
 	        nextDirection = dir;
 	    }
 	 
-	 public Vector2 getPosition() {
-	        return position;    
-	 }
-	 
 	 public void move(int dir) { 
 		 position.x += SPEED * DIR_OFFSETS[dir][0];
 	     position.y += SPEED * DIR_OFFSETS[dir][1];
+	  
 	 }
 	 
 	 public boolean isAtCenter() {
@@ -67,13 +86,14 @@ public class Cat {
 	 
 	 public void update() {
 	        if(isAtCenter()) {
-	        	 if(canMoveInDirection(nextDirection)) {
-	                 currentDirection = nextDirection;    
-	             } else {
-	                 currentDirection = DIRECTION_STILL;    
-	             }
+	            	if(canMoveInDirection(nextDirection)) {
+	                    currentDirection = nextDirection;
+	                    
+	                } else {
+	                    currentDirection = DIRECTION_STILL;    
+	                }
 	        }
 	        position.x += SPEED * DIR_OFFSETS[currentDirection][0];
-	        position.y += SPEED * DIR_OFFSETS[currentDirection][1];
-	    }
+	        position.y += SPEED * DIR_OFFSETS[currentDirection][1];       
+	 }	 
 }

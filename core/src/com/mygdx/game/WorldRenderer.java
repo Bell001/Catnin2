@@ -16,7 +16,7 @@ public class WorldRenderer {
 		this.catNin = catNin;
 	    batch = catNin.batch;
 	    this.world = world;
-	    NinjaCat = new Texture("Ninja-Cat1.png");
+	    NinjaCat = new Texture("Catbox.png");
 	    mazeRenderer = new MazeRenderer(catNin.batch, world.getMaze());
 	}
 	

@@ -34,11 +34,11 @@ public class GameScreen extends ScreenAdapter {
     }
     
     private void update(float delta) {
-    	updatePacmanDirection();
+    	updateCatNinDirection();
     	world.update(delta);
     }
     
-    private void updatePacmanDirection() {
+    private void updateCatNinDirection() {
     	Cat cat = world.getCat();
     	if(Gdx.input.isKeyPressed(Keys.UP)) {
     		cat.setNextDirection(Cat.DIRECTION_UP);

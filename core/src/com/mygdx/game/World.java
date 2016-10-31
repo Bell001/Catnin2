@@ -6,20 +6,20 @@ public class World {
     private Maze maze;
  
     World(CatNin catNin) {
-        this.catNin = catNin;
+    	maze = new Maze();
         cat = new Cat(60,60,maze);
-        maze = new Maze();
+        this.catNin = catNin;
     }
-        
-    Maze getMaze() {
-        return maze;
-    }
-    
+          
     Cat getCat() {
         return cat;
     }
     
     public void update(float delta) {
         cat.update();
+    }
+    
+    Maze getMaze() {
+        return maze;
     }
 }
