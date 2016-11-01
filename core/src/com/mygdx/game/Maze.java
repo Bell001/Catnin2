@@ -45,10 +45,21 @@ public class Maze {
     };
 	private int height;
     private int width;
+    private boolean [][] hasSpace;
  
     public Maze() {
         height = MAP.length;
         width = MAP[0].length();
+        initDotData();
+    }
+    
+    private void initDotData() {
+        hasSpace = new boolean[height][width];
+        for(int r = 0; r < height; r++) {
+            for(int c = 0; c < width; c++) {
+                hasSpace[r][c] = MAP[r].charAt(c) == '.';
+            }
+        }
     }
  
     public int getHeight() {
@@ -76,7 +87,11 @@ public class Maze {
     }
  
     public boolean hasSpaceAt(int r, int c) {
-        return MAP[r].charAt(c) == '.';
+    	return hasSpace[r][c];
+    }
+    
+    public void removeItem1At(int r, int c) {
+        hasSpace[r][c] = false;
     }
     
     public boolean Item1(int r, int c) {

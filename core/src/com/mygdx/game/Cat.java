@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 public class Cat {
 	 private Vector2 position;
@@ -9,6 +12,7 @@ public class Cat {
 	 private Maze maze;
 	 private int currentDirection;
 	 private int nextDirection;
+	 private LinkedList<DotEattenListener> listeners;
 	 public static final int SPEED = 5;
 	 public static final int DIRECTION_UP = 1;
 	 public static final int DIRECTION_RIGHT = 2;
@@ -23,13 +27,29 @@ public class Cat {
 	        {-1,0}
 	    };
 	 
-	 public Cat(int x, int y, Maze maze) {
+	 public interface DotEattenListener {
+	        void notifyDotEatten();			
+	    }
+	 
+	 public Cat(int x, int y, World world) {
 	        position = new Vector2(x,y);
 	        currentDirection = DIRECTION_STILL;
 	        nextDirection = DIRECTION_STILL;
 	        this.maze = maze;
+	        listeners = new LinkedList<DotEattenListener>();
+	        this.world = world;
 	       
 	 }  
+	 
+	 public void registerDotEattenListener(DotEattenListener l) {
+	        listeners.add(l);
+	 }
+	 
+	 private void notifyDotEattenListeners() {
+	        for(DotEattenListener l : listeners) {
+	            l.notifyDotEatten();
+	        }
+	 }
 	 
 	 public Vector2 getPosition() {
 	        return position;    
@@ -46,7 +66,7 @@ public class Cat {
 	 
 	
 	 private boolean canMoveInDirection(int dir) {
-	
+		    Maze maze = world.getMaze();
 	    	int newRow = DIR_OFFSETS[dir][1]+getRow();  
 	        int newCol = DIR_OFFSETS[dir][0]+getColumn(); 
 	        
@@ -81,13 +101,18 @@ public class Cat {
 	 
 	 
 	 public void update() {
+		    Maze maze = world.getMaze();
 	        if(true) {
 	            	if(canMoveInDirection(nextDirection)) {
 	                    currentDirection = nextDirection;
+	                    if(maze.hasSpaceAt(getRow(), getColumn())){
+	                    	maze.removeItem1At(getRow(),getColumn());
+	                    	world.increaseScore();
+	                    	notifyDotEattenListeners();
+	                    }
 	                    
 	                } else {
-	                    currentDirection = DIRECTION_STILL; 
-	                    
+	                    currentDirection = DIRECTION_STILL; 	                    
 	                }
 	        } 
 	        move(currentDirection);     

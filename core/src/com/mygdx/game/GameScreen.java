@@ -11,6 +11,7 @@ public class GameScreen extends ScreenAdapter {
 	private CatNin catNin;   
 	private Texture NinjaCat;
 	private Cat cat;
+	private Enamy Enamy;
 	World world;
 	WorldRenderer worldRenderer;
  
