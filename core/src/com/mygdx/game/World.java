@@ -11,17 +11,9 @@ public class World {
         this.catNin = catNin;
         score = 0;     
         cat = new Cat(100,100,this);
-        registerDotEattenListener();
+        
     }
     
-    private void registerDotEattenListener() {
-        cat.registerDotEattenListener(new Cat.DotEattenListener() {
-            @Override
-            public void notifyDotEatten() {
-                score += 1;
-            }
-        });
-    }
     
     Cat getCat() {
         return cat;

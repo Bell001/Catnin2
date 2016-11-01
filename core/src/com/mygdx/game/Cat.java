@@ -82,6 +82,8 @@ public class Cat {
 	            return false;
 	        } else if(maze.ShadowAtCorner(newRow,newCol)){
 	            return false;
+	        } else if(maze.hasBlockAt(newRow,newCol)){
+	            return false;
 	        } else {
 	            return true;
 	        }
@@ -105,7 +107,7 @@ public class Cat {
 	        if(true) {
 	            	if(canMoveInDirection(nextDirection)) {
 	                    currentDirection = nextDirection;
-	                    if(maze.hasSpaceAt(getRow(), getColumn())){
+	                    if(maze.hasItemAt(getRow(), getColumn())){
 	                    	maze.removeItem1At(getRow(),getColumn());
 	                    	world.increaseScore();
 	                    	notifyDotEattenListeners();

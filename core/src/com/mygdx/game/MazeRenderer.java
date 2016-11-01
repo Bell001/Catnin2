@@ -11,8 +11,8 @@ public class MazeRenderer {
 	 private Texture ShadowImageCorner;
 	 private Texture ShadowImageDown;
 	 private Texture ShadowImageUp;
-	 private Texture EnamyImage;
 	 private Texture ItemImage;
+	 private Texture BlockImage;
 	 private Texture BackgroundImage;
 	 
 	 public MazeRenderer(SpriteBatch batch, Maze maze) {
@@ -23,8 +23,8 @@ public class MazeRenderer {
 	        ShadowImageCorner = new Texture("Border-Corner.png"); //ให้แทนด้วยสัญลักษณะใน maze C
 	        ShadowImageDown = new Texture("Border-Down.png");   //ให้แทนด้วยสัญลักษณะใน maze D
 	        ShadowImageUp = new Texture("Border-Up.png");     //ให้แทนด้วยสัญลักษณะใน maze U
-	        EnamyImage = new Texture("T1.png");
 	        ItemImage = new Texture("ITEM1.png");
+	        BlockImage = new Texture("T1.png");
 	        BackgroundImage = new Texture("BackGround2.png");
 	 }
 	 
@@ -47,10 +47,10 @@ public class MazeRenderer {
 	                	batch.draw(ShadowImageDown, x, y);
 	                } else if(maze.ShadowAtUp(r, c)) {
 	                	batch.draw(ShadowImageUp, x, y);
-	                } else if(maze.hasSpaceAt(r, c)) {
-//	                    batch.draw(EnamyImage, x, y);
-	                } else if(maze.Item1(r,c)){
-	                	batch.draw(ItemImage, x, y);
+	                } else if(maze.hasItemAt(r, c)) {
+	                    batch.draw(ItemImage, x, y);
+	                } else if(maze.hasBlockAt(r,c)){
+	                	batch.draw(BlockImage, x, y);
 	                }
 	            }
 	     }
