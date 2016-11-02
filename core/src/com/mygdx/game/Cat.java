@@ -13,15 +13,17 @@ public class Cat {
 	 private int currentDirection;
 	 private int nextDirection;
 	 private LinkedList<DotEattenListener> listeners;
+	 public static boolean CatinBase = true;
+	 public static double ValueDown = 1.02;
 	 public static final int SPEED = 5;
+	 public static final int SPEEDGRAVITY = -20;
 	 public static final int DIRECTION_UP = 1;
 	 public static final int DIRECTION_RIGHT = 2;
-	 public static final int DIRECTION_DOWN = 3;
 	 public static final int DIRECTION_LEFT = 4;
 	 public static final int DIRECTION_STILL = 0;
 	 private static final int [][] DIR_OFFSETS = new int [][] {
 	        {0,0},
-	        {0,-1},
+	        {0,-20},
 	        {1,0},
 	        {0,1},
 	        {-1,0}
@@ -61,9 +63,7 @@ public class Cat {
 	 
 	 private int getColumn() {
 	        return ((int)position.x) / WorldRenderer.BLOCK_SIZE; 
-	    }
-	 
-	 
+	    } 	 
 	
 	 private boolean canMoveInDirection(int dir) {
 		    Maze maze = world.getMaze();
@@ -83,40 +83,59 @@ public class Cat {
 	        } else if(maze.ShadowAtCorner(newRow,newCol)){
 	            return false;
 	        } else if(maze.hasBlockAt(newRow,newCol)){
+	        	position.x += SPEED * DIR_OFFSETS[dir][0];
+	        	CatinBase = true;
+	        	ValueDown = 1.02;
 	            return false;
 	        } else {
 	            return true;
 	        }
-	    }
+	  }
 	    
-	
-	 
 	 public void setNextDirection(int dir) {
 	        nextDirection = dir;
-	    }
+	 }
 	 
-	 public void move(int dir) { 
+	 public void move(int dir) { 		 
 		 position.x += SPEED * DIR_OFFSETS[dir][0];
-	     position.y += SPEED * DIR_OFFSETS[dir][1];
-	  
+		 if(checkcatinbase()) {
+              position.y += SPEED * DIR_OFFSETS[dir][1];
+	          CatinBase = false;
+		   
+		 }
 	 }
 	 
 	 
 	 public void update() {
 		    Maze maze = world.getMaze();
-	        if(true) {
-	            	if(canMoveInDirection(nextDirection)) {
-	                    currentDirection = nextDirection;
-	                    if(maze.hasItemAt(getRow(), getColumn())){
-	                    	maze.removeItem1At(getRow(),getColumn());
-	                    	world.increaseScore();
-	                    	notifyDotEattenListeners();
-	                    }
+	        if(canMoveInDirection(nextDirection)) {
+	             currentDirection = nextDirection;
+	           
+	             if(maze.hasItemAt(getRow(), getColumn())){
+	                   maze.removeItem1At(getRow(),getColumn());
+	                   world.increaseScore();
+	                   notifyDotEattenListeners();
+	             }
 	                    
-	                } else {
-	                    currentDirection = DIRECTION_STILL; 	                    
-	                }
-	        } 
-	        move(currentDirection);     
-	 }	 
+	        } else {
+	             currentDirection = DIRECTION_STILL; 	
+	        }
+
+	        move(currentDirection);
+	        
+	        if(position.y <= 760 && canMoveInDirection(currentDirection)){
+	        	position.y += 2*ValueDown;
+	        	ValueDown += 0.02;
+	        	CatinBase = false;
+	        } else {
+	        	move(currentDirection);
+	        	ValueDown = 1.02;
+	        	CatinBase = true;
+	        }
+	 }
+	 
+	 public boolean checkcatinbase() {
+		    return CatinBase; 
+	 }
+	 
 }

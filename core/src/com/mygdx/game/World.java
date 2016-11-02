@@ -10,7 +10,7 @@ public class World {
     	maze = new Maze();      
         this.catNin = catNin;
         score = 0;     
-        cat = new Cat(100,100,this);
+        cat = new Cat(35,760,this);
         
     }
     

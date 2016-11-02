@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 public class WorldRenderer {
 	public static int NumCatImg = 0; //เปลี่ยนรูปแมว
 	public static final int BLOCK_SIZE = 20;
+	public static final int CAT_SIZE = 80;
 	public  SpriteBatch batch;	
 	private CatNin catNin;
 	private Texture CatMove0;
@@ -47,7 +48,6 @@ public class WorldRenderer {
         	batch.draw(CatMove0, pos.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos.y - BLOCK_SIZE/2);
         	NumCatImg = 0;
         }
-        System.out.println(NumCatImg);
         font.draw(batch, "SCORE  " + world.getScore(), 100, 150);
         batch.end();
 	}

@@ -24,7 +24,7 @@ public class MazeRenderer {
 	        ShadowImageDown = new Texture("Border-Down.png");   //ให้แทนด้วยสัญลักษณะใน maze D
 	        ShadowImageUp = new Texture("Border-Up.png");     //ให้แทนด้วยสัญลักษณะใน maze U
 	        ItemImage = new Texture("ITEM1.png");
-	        BlockImage = new Texture("T1.png");
+	        BlockImage = new Texture("BOX1.png");
 	        BackgroundImage = new Texture("BackGround2.png");
 	 }
 	 
@@ -38,19 +38,19 @@ public class MazeRenderer {
 	                        (r * WorldRenderer.BLOCK_SIZE) - WorldRenderer.BLOCK_SIZE;
 	 
 	                if(maze.ShadowAtRight(r, c)) {
-	                    batch.draw(ShadowImageRight, x, y);
+//	                    batch.draw(ShadowImageRight, x, y);
 	                } else if(maze.ShadowAtLeft(r, c)) {
-	                	batch.draw(ShadowImageLeft, x, y);
+//	                	batch.draw(ShadowImageLeft, x, y);
 	                } else if(maze.ShadowAtCorner(r, c)) {
-	                	batch.draw(ShadowImageCorner, x, y);
+//	                	batch.draw(ShadowImageCorner, x, y);
 	                } else if(maze.ShadowAtDown(r, c)) {
-	                	batch.draw(ShadowImageDown, x, y);
+//	                	batch.draw(ShadowImageDown, x, y);
 	                } else if(maze.ShadowAtUp(r, c)) {
-	                	batch.draw(ShadowImageUp, x, y);
-	                } else if(maze.hasItemAt(r, c)) {
-	                    batch.draw(ItemImage, x, y);
+//	                	batch.draw(ShadowImageUp, x, y);
 	                } else if(maze.hasBlockAt(r,c)){
 	                	batch.draw(BlockImage, x, y);
+	                } else if(maze.hasItemAt(r, c)) {
+	                    batch.draw(ItemImage, x, y);
 	                }
 	            }
 	     }
