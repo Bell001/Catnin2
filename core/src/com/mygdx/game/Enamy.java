@@ -10,13 +10,13 @@ public class Enamy {
 	 private Vector2 position;
 	 private World world;
 	 private Maze maze;
+	 public static boolean Haveenamy = false;
 	 public static boolean A = true;
 	 
 	 public Enamy(int x, int y, World world) {
 	        position = new Vector2(x,y);
 	        this.maze = maze;
-	        this.world = world;
-	       
+	        this.world = world;	       
 	 }  
 	 
 	 public void update() {
@@ -31,11 +31,16 @@ public class Enamy {
 		 if(position.x >= 1150){
 			 A = true;
 		 }
+		 Haveenamy = true;
 		 
 	 }
 	 
 	 public Vector2 getPosition() {
 	        return position;    
+	 }
+	 
+	 public boolean checkhaveenamy() {
+		 return Haveenamy;
 	 }
 
 }

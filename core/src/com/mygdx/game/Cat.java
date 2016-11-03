@@ -10,6 +10,7 @@ public class Cat {
 	 private CatNin catNin;
 	 private World world;
 	 private Maze maze;
+	 private Enamy enamy;
 	 private int currentDirection;
 	 private int nextDirection;
 	 private LinkedList<DotEattenListener> listeners;
@@ -110,15 +111,15 @@ public class Cat {
 		        	CatinBase = true;
 		         }
 	             
-	             if(currentDirection == 1) {
+	             if(currentDirection == 1 || checkcatonmelon()) {
 	            	 Jump = true;
 	            	 Status = false;
 	             }
 	             
 	             if(Jump) {
 	            	position.y += (int)(Math.sin(c)+Math.cos(c))*SPEED;
-	 	        	c += 0.1;
-	 	        	if((int)(Math.sin(c)+Math.cos(c))*SPEED > 0) {
+	 	        	c += 0.03;
+	 	        	if((int)(Math.sin(c)+Math.cos(c))*SPEED > -2) {
 	 	        		c=10;
 	 	        		Status = true;
 	 	        		Jump = false;
@@ -142,4 +143,12 @@ public class Cat {
 		    return CatinBase; 
 	 }
 	 
+	 public boolean checkcatonmelon() {
+		 Vector2 pos = world.getEnamy().getPosition();
+		 if((Math.abs(position.y - pos.y) < 40) && (Math.abs(position.x - pos.x) < 40)) {
+			 return true;
+		 } else {
+		     return false;
+		 }
+	 }	 
 }
