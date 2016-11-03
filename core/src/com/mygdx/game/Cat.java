@@ -15,15 +15,18 @@ public class Cat {
 	 private LinkedList<DotEattenListener> listeners;
 	 public static boolean CatinBase = true;
 	 public static double ValueDown = 1.02;
-	 public static double Counter = 4;
+	 public static double c = 10; //counter
+	 public static int x = 0; // value for check jump
+	 public static boolean Status = true;
+	 public static boolean Jump = false;
 	 public static final int SPEED = 5;
-	 public static final int DIRECTION_UP = 1;
+	 public static final int DIRECTION_SPACE = 1;
 	 public static final int DIRECTION_RIGHT = 2;
 	 public static final int DIRECTION_LEFT = 4;
 	 public static final int DIRECTION_STILL = 0;
 	 private static final int [][] DIR_OFFSETS = new int [][] {
 	        {0,0},
-	        {0,-20},
+	        {0,-1},
 	        {1,0},
 	        {0,1},
 	        {-1,0}
@@ -90,10 +93,6 @@ public class Cat {
 	 
 	 public void move(int dir) { 		 
 		 position.x += SPEED * DIR_OFFSETS[dir][0];
-		 if(checkcatinbase()) {
-             position.y += SPEED * DIR_OFFSETS[dir][1];
-	         CatinBase = false;
-		 }
 	 }
 	 
 	 
@@ -101,7 +100,31 @@ public class Cat {
 		    Maze maze = world.getMaze();
 	        if(canMoveInDirection(nextDirection)) {
 	             currentDirection = nextDirection;
-	           
+	             
+	             if(position.y <= 760 && Status) { //Down
+	            	position.y += 2*ValueDown;
+	 	        	ValueDown += 0.2;
+	 	        	CatinBase = false;
+	             } else {
+		        	ValueDown = 1.2;
+		        	CatinBase = true;
+		         }
+	             
+	             if(currentDirection == 1) {
+	            	 Jump = true;
+	            	 Status = false;
+	             }
+	             
+	             if(Jump) {
+	            	position.y += (int)(Math.sin(c)+Math.cos(c))*SPEED;
+	 	        	c += 0.1;
+	 	        	if((int)(Math.sin(c)+Math.cos(c))*SPEED > 0) {
+	 	        		c=10;
+	 	        		Status = true;
+	 	        		Jump = false;
+	 	        	}
+	             }
+	             
 	             if(maze.hasItemAt(getRow(), getColumn())){
 	                   maze.removeItem1At(getRow(),getColumn());
 	                   world.increaseScore();
@@ -110,19 +133,9 @@ public class Cat {
 	                    
 	        } else {
 	             currentDirection = DIRECTION_STILL; 	
-	        }
-
+	        }        
 	        move(currentDirection);
 	        
-	        if(position.y <= 760 && canMoveInDirection(currentDirection)){
-	        	position.y += 2*ValueDown;
-	        	ValueDown += 0.2;
-	        	CatinBase = false;
-	        } else {
-	        	move(nextDirection);
-	        	ValueDown = 1.2;
-	        	CatinBase = true;
-	        }
 	 }
 	 
 	 public boolean checkcatinbase() {
