@@ -15,8 +15,8 @@ public class Cat {
 	 private LinkedList<DotEattenListener> listeners;
 	 public static boolean CatinBase = true;
 	 public static double ValueDown = 1.02;
+	 public static double Counter = 4;
 	 public static final int SPEED = 5;
-	 public static final int SPEEDGRAVITY = -20;
 	 public static final int DIRECTION_UP = 1;
 	 public static final int DIRECTION_RIGHT = 2;
 	 public static final int DIRECTION_LEFT = 4;
@@ -72,20 +72,12 @@ public class Cat {
 	        
 	        if(newRow <= 0 || newCol<= 0){
 	        	return false;
-	        } else if(maze.ShadowAtRight(newRow,newCol)){
-	            return false;
-	        } else if(maze.ShadowAtLeft(newRow,newCol)){
-	            return false;
-	        } else if(maze.ShadowAtDown(newRow,newCol)){
-	            return false;
-	        } else if(maze.ShadowAtUp(newRow,newCol)){
-	            return false;
-	        } else if(maze.ShadowAtCorner(newRow,newCol)){
+	        } else if(maze.Border(newRow,newCol)){
 	            return false;
 	        } else if(maze.hasBlockAt(newRow,newCol)){
 	        	position.x += SPEED * DIR_OFFSETS[dir][0];
 	        	CatinBase = true;
-	        	ValueDown = 1.02;
+	        	ValueDown = 1.2;
 	            return false;
 	        } else {
 	            return true;
@@ -99,9 +91,8 @@ public class Cat {
 	 public void move(int dir) { 		 
 		 position.x += SPEED * DIR_OFFSETS[dir][0];
 		 if(checkcatinbase()) {
-              position.y += SPEED * DIR_OFFSETS[dir][1];
-	          CatinBase = false;
-		   
+             position.y += SPEED * DIR_OFFSETS[dir][1];
+	         CatinBase = false;
 		 }
 	 }
 	 
@@ -125,11 +116,11 @@ public class Cat {
 	        
 	        if(position.y <= 760 && canMoveInDirection(currentDirection)){
 	        	position.y += 2*ValueDown;
-	        	ValueDown += 0.02;
+	        	ValueDown += 0.2;
 	        	CatinBase = false;
 	        } else {
-	        	move(currentDirection);
-	        	ValueDown = 1.02;
+	        	move(nextDirection);
+	        	ValueDown = 1.2;
 	        	CatinBase = true;
 	        }
 	 }

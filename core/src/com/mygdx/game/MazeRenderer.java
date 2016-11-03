@@ -6,11 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MazeRenderer {
 	 private Maze maze;
 	 private SpriteBatch batch;
-	 private Texture ShadowImageRight;
-	 private Texture ShadowImageLeft;
-	 private Texture ShadowImageCorner;
-	 private Texture ShadowImageDown;
-	 private Texture ShadowImageUp;
+	 private Texture Border;
 	 private Texture ItemImage;
 	 private Texture BlockImage;
 	 private Texture BackgroundImage;
@@ -18,13 +14,9 @@ public class MazeRenderer {
 	 public MazeRenderer(SpriteBatch batch, Maze maze) {
 	        this.maze = maze;
 	        this.batch = batch;
-	        ShadowImageRight = new Texture("Border-Right.png");  //ให้แทนด้วยสัญลักษณะใน maze R
-	        ShadowImageLeft = new Texture("Border-Left.png");   //ให้แทนด้วยสัญลักษณะใน maze L
-	        ShadowImageCorner = new Texture("Border-Corner.png"); //ให้แทนด้วยสัญลักษณะใน maze C
-	        ShadowImageDown = new Texture("Border-Down.png");   //ให้แทนด้วยสัญลักษณะใน maze D
-	        ShadowImageUp = new Texture("Border-Up.png");     //ให้แทนด้วยสัญลักษณะใน maze U
+	        Border = new Texture("Border-Corner.png");  //ให้แทนด้วยสัญลักษณะใน maze R
 	        ItemImage = new Texture("ITEM1.png");
-	        BlockImage = new Texture("BOX1.png");
+	        BlockImage = new Texture("BOX-40.png");
 	        BackgroundImage = new Texture("BackGround2.png");
 	 }
 	 
@@ -37,16 +29,8 @@ public class MazeRenderer {
 	                int y = CatNin.HEIGHT - 
 	                        (r * WorldRenderer.BLOCK_SIZE) - WorldRenderer.BLOCK_SIZE;
 	 
-	                if(maze.ShadowAtRight(r, c)) {
-//	                    batch.draw(ShadowImageRight, x, y);
-	                } else if(maze.ShadowAtLeft(r, c)) {
-//	                	batch.draw(ShadowImageLeft, x, y);
-	                } else if(maze.ShadowAtCorner(r, c)) {
-//	                	batch.draw(ShadowImageCorner, x, y);
-	                } else if(maze.ShadowAtDown(r, c)) {
-//	                	batch.draw(ShadowImageDown, x, y);
-	                } else if(maze.ShadowAtUp(r, c)) {
-//	                	batch.draw(ShadowImageUp, x, y);
+	                if(maze.Border(r, c)) {
+//	                    batch.draw(ShadowImageRight, x, y);	       
 	                } else if(maze.hasBlockAt(r,c)){
 	                	batch.draw(BlockImage, x, y);
 	                } else if(maze.hasItemAt(r, c)) {

@@ -26,6 +26,7 @@ public class WorldRenderer {
 	    CatMove0 = new Texture("Cat-Move1.png");
 	    CatMove1 = new Texture("Cat-Move2.png");
 	    CatMove2 = new Texture("Cat-Move3.png");
+	    Enamy1 = new Texture("Melon1.png");
 	    mazeRenderer = new MazeRenderer(catNin.batch, world.getMaze());
 	    font = new BitmapFont();
 	}
@@ -34,6 +35,7 @@ public class WorldRenderer {
 		mazeRenderer.render();
 		SpriteBatch batch = catNin.batch;
 		Vector2 pos = world.getCat().getPosition();
+		Vector2 pos2 = world.getEnamy().getPosition();
         batch.begin(); 
         if(NumCatImg<=30){
             batch.draw(CatMove0, pos.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos.y - BLOCK_SIZE/2);
@@ -47,7 +49,8 @@ public class WorldRenderer {
         } else {
         	batch.draw(CatMove0, pos.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos.y - BLOCK_SIZE/2);
         	NumCatImg = 0;
-        }
+        }        
+        batch.draw(Enamy1 , pos2.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos2.y - BLOCK_SIZE/2);
         font.draw(batch, "SCORE  " + world.getScore(), 100, 150);
         batch.end();
 	}
