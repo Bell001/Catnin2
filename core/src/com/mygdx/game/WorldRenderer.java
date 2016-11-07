@@ -15,6 +15,8 @@ public class WorldRenderer {
 	private Texture CatMove1;
 	private Texture CatMove2;
 	private Texture Enamy1;
+	private Texture WoodImage;
+	private Cat cat;
 	private World world;
 	private MazeRenderer mazeRenderer;
 	private BitmapFont font;
@@ -27,6 +29,7 @@ public class WorldRenderer {
 	    CatMove1 = new Texture("Cat-Move2.png");
 	    CatMove2 = new Texture("Cat-Move3.png");
 	    Enamy1 = new Texture("Melon1.png");
+	    WoodImage = new Texture("New-Wood.png");
 	    mazeRenderer = new MazeRenderer(catNin.batch, world.getMaze());
 	    font = new BitmapFont();
 	}
@@ -36,6 +39,7 @@ public class WorldRenderer {
 		SpriteBatch batch = catNin.batch;
 		Vector2 pos = world.getCat().getPosition();
 		Vector2 pos2 = world.getEnamy().getPosition();
+		Vector2 pos3 = world.getWood().getPosition();
         batch.begin(); 
         if(NumCatImg<=30){
             batch.draw(CatMove0, pos.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos.y - BLOCK_SIZE/2);
@@ -50,7 +54,12 @@ public class WorldRenderer {
         	batch.draw(CatMove0, pos.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos.y - BLOCK_SIZE/2);
         	NumCatImg = 0;
         }        
-        batch.draw(Enamy1 , pos2.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos2.y - BLOCK_SIZE/2);
+        batch.draw(WoodImage , pos3.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos3.y - BLOCK_SIZE/2);
+        if(!world.getCat().Remove()) {
+          batch.draw(Enamy1 , pos2.x-BLOCK_SIZE/2, CatNin.HEIGHT - pos2.y - BLOCK_SIZE/2);
+        } else {
+        	
+        }
         font.draw(batch, "SCORE  " + world.getScore(), 100, 150);
         batch.end();
 	}

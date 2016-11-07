@@ -15,6 +15,7 @@ public class Cat {
 	 private int nextDirection;
 	 private LinkedList<DotEattenListener> listeners;
 	 public static boolean CatinBase = true;
+	 public static boolean remove = false;
 	 public static double ValueDown = 1.02;
 	 public static double c = 10; //counter
 	 public static int x = 0; // value for check jump
@@ -78,7 +79,7 @@ public class Cat {
 	        	return false;
 	        } else if(maze.Border(newRow,newCol)){
 	            return false;
-	        } else if(maze.hasBlockAt(newRow,newCol)){
+	        } else if(maze.hasBlockAt(newRow,newCol)||checkcatinwood()){
 	        	position.x += SPEED * DIR_OFFSETS[dir][0];
 	        	CatinBase = true;
 	        	ValueDown = 1.2;
@@ -135,7 +136,7 @@ public class Cat {
 	        } else {
 	             currentDirection = DIRECTION_STILL; 	
 	        }        
-	        move(currentDirection);
+	        move(currentDirection);   
 	        
 	 }
 	 
@@ -144,11 +145,26 @@ public class Cat {
 	 }
 	 
 	 public boolean checkcatonmelon() {
-		 Vector2 pos = world.getEnamy().getPosition();
+		 Vector2 pos = world.getEnamy().getPosition();		 
 		 if((Math.abs(position.y - pos.y) < 40) && (Math.abs(position.x - pos.x) < 40)) {
+			 world.increaseScore();
+			 remove = true;
 			 return true;
 		 } else {
 		     return false;
 		 }
 	 }	 
+	 
+	 public boolean checkcatinwood(){
+		 Vector2 pos = world.getWood().getPosition();
+		 if((Math.abs(position.y-pos.y) < 10) && ((Math.abs(position.x-pos.x) < 30))) {
+			 return true;	 
+	     } else {
+	    	 return false;
+	     }
+	 }
+	 
+	 public boolean Remove() {
+		 return remove;
+	 }
 }

@@ -18,6 +18,7 @@ public class MazeRenderer {
 	        ItemImage = new Texture("ITEM1.png");
 	        BlockImage = new Texture("BOX-40.png");
 	        BackgroundImage = new Texture("BackGround2.png");
+	        
 	 }
 	 
 	 public void render() {

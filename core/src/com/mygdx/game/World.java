@@ -4,6 +4,7 @@ public class World {
 	private Cat cat;
     private CatNin catNin;
     private Enamy enamy;
+    private Wood wood;
     private Enamy enamy1;
     private Maze maze;
     private int score;
@@ -14,7 +15,12 @@ public class World {
         score = 0;     
         cat = new Cat(562,135,this);
         enamy = new Enamy(350,200,this);
+        wood = new Wood(450,600,this);
         
+    }
+    
+    Wood getWood() {
+    	return wood;
     }
     
     Enamy getEnamy() {
@@ -28,6 +34,7 @@ public class World {
     public void update(float delta) {
         cat.update();
         enamy.update();
+        wood.update();
     }
     
     Maze getMaze() {
