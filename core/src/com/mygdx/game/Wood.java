@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Wood {
 	 
 	 public static boolean Turn = true;
-	 public static final int Move = 1;
+	 public static final int Move = 4;
 	 public static int distance = 0; 
 	 private Vector2 position;
 	 private World world;
@@ -18,16 +18,17 @@ public class Wood {
 	 }
 	 
 	 public void update() {
-		 if(distance <= 200 && Turn) {
-			 position.x += Move;
-			 distance += Move;
-		 }else {
+		 if(Turn) {
 			 position.x -= Move;
-			 distance -=Move ;
-			 Turn = false;
+			 distance -= Move;
+		 }else {
+			 position.x += Move;
+			 distance +=Move ;		
 		 }
-		 if(distance == 0) {
+		 if(position.x >= 1000) {
 			 Turn = true;
+		 } else if(position.x <= 200) {
+			 Turn = false;
 		 }
 		 
 	 }

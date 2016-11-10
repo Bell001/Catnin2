@@ -7,15 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 public class Cat {
 	 private Vector2 position;
+	 private WorldRenderer worldRenderer;
 	 private CatNin catNin;
 	 private World world;
 	 private Maze maze;
-	 private Enamy enamy;
+	 private Wood wood;
+	 private Enamy[] enamy;
 	 private int currentDirection;
 	 private int nextDirection;
 	 private LinkedList<DotEattenListener> listeners;
+	 public static Vector2 pos_w;
 	 public static boolean CatinBase = true;
-	 public static boolean remove = false;
+	 public static boolean remove[] = {false,false,false,false,false,false,false,false,false,false};
 	 public static double ValueDown = 1.02;
 	 public static double c = 10; //counter
 	 public static int x = 0; // value for check jump
@@ -79,7 +82,12 @@ public class Cat {
 	        	return false;
 	        } else if(maze.Border(newRow,newCol)){
 	            return false;
-	        } else if(maze.hasBlockAt(newRow,newCol)||checkcatinwood()){
+	        } else if(maze.hasBlockAt(newRow,newCol)){
+	        	position.x += SPEED * DIR_OFFSETS[dir][0];
+	        	CatinBase = true;
+	        	ValueDown = 1.2;
+	            return false;
+	        } else if(checkcatinwood(pos_w)){
 	        	position.x += SPEED * DIR_OFFSETS[dir][0];
 	        	CatinBase = true;
 	        	ValueDown = 1.2;
@@ -100,6 +108,8 @@ public class Cat {
 	 
 	 public void update() {
 		    Maze maze = world.getMaze();
+		    pos_w = world.getWood().getPosition();
+		    Add_E1();
 	        if(canMoveInDirection(nextDirection)) {
 	             currentDirection = nextDirection;
 	             
@@ -136,7 +146,7 @@ public class Cat {
 	        } else {
 	             currentDirection = DIRECTION_STILL; 	
 	        }        
-	        move(currentDirection);   
+	        move(currentDirection); 
 	        
 	 }
 	 
@@ -145,26 +155,52 @@ public class Cat {
 	 }
 	 
 	 public boolean checkcatonmelon() {
-		 Vector2 pos = world.getEnamy().getPosition();		 
-		 if((Math.abs(position.y - pos.y) < 40) && (Math.abs(position.x - pos.x) < 40)) {
-			 world.increaseScore();
-			 remove = true;
-			 return true;
-		 } else {
-		     return false;
+		 for(int i=0;i<10;i++) {
+		  if(worldRenderer.Check_E[i]) {		  
+		     Vector2 pos = world.getEnamy(i).getPosition();
+		     if((Math.abs(position.y - pos.y) < 40) && (Math.abs(position.x - pos.x) < 40)) {
+			    world.increaseScore();
+			    remove[i] = true;
+			    return true;
+	   	     }  else {
+		       return false;
+		     }
+		   }
 		 }
+		 return false;
 	 }	 
 	 
-	 public boolean checkcatinwood(){
-		 Vector2 pos = world.getWood().getPosition();
-		 if((Math.abs(position.y-pos.y) < 10) && ((Math.abs(position.x-pos.x) < 30))) {
+	 public boolean checkcatinwood(Vector2 pos){
+		 if((Math.abs(position.y-pos.y) < 20) && (Math.abs(position.x-pos.x) < 100)) {
 			 return true;	 
 	     } else {
 	    	 return false;
 	     }
 	 }
 	 
-	 public boolean Remove() {
-		 return remove;
+	 public boolean Remove(int i) {
+		 return remove[i];
+	 }
+	 
+	 public void Reset_remove(int i) {
+	     remove[i] = false;	 
+	 }
+	 
+	 public void Add_E1() {
+		 int i = (int)(Math.random()*10)%10;
+	     if(worldRenderer.RANDOM > 100) {
+	    	 worldRenderer.Check_E[i] = true;
+	    	 worldRenderer.RANDOM =0;
+	     }
+		 ++worldRenderer.RANDOM;
+		 for(int j=0;j<10;j++) {
+		    	if(worldRenderer.Check_E[j] && (world.getEnamy(j) != null)) {
+		    		worldRenderer.pos_E[j] = world.getEnamy(j).getPosition();
+			    }
+		    	if(worldRenderer.Check_E[j] && (world.getEnamy(j) == null)) {
+		    		world.Reset_E(j);
+		    		worldRenderer.pos_E[j] = world.getEnamy(j).getPosition();
+		    	}
+		 }
 	 }
 }

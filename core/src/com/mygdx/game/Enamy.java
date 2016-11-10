@@ -32,7 +32,6 @@ public class Enamy {
 			 A = true;
 		 }
 		 Haveenamy = true;
-		 
 	 }
 	 
 	 public Vector2 getPosition() {
