@@ -21,11 +21,11 @@ public class Enamy {
 	 
 	 public void update() {
 		 if(position.y<=760) {
-	       position.y += 1;
+	       position.y += 5;
 		 } else if(position.x >= 40 && A){
-		   position.x -= 1; 
+		   position.x -= 10; 
 		 } else {
-		   position.x += 1;  
+		   position.x += 10;  
 		   A = false;
 		 }
 		 if(position.x >= 1150){

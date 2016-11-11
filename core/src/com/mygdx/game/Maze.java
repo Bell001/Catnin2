@@ -1,6 +1,7 @@
 package com.mygdx.game; 
 
 public class Maze {
+	
 	private String[] MAP = new String [] {
             "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
             "B..........................................................B",

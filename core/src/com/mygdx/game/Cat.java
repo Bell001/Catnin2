@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 public class Cat {
+	
 	 private Vector2 position;
 	 private WorldRenderer worldRenderer;
 	 private CatNin catNin;
@@ -18,10 +19,10 @@ public class Cat {
 	 private LinkedList<DotEattenListener> listeners;
 	 public static Vector2 pos_w;
 	 public static boolean CatinBase = true;
-	 public static boolean remove[] = {false,false,false,false,false,false,false,false,false,false};
 	 public static double ValueDown = 1.02;
 	 public static double c = 10; //counter
 	 public static int x = 0; // value for check jump
+	 public static int check_one_jump = 0;
 	 public static boolean Status = true;
 	 public static boolean Jump = false;
 	 public static final int SPEED = 5;
@@ -45,9 +46,9 @@ public class Cat {
 	        position = new Vector2(x,y);
 	        currentDirection = DIRECTION_STILL;
 	        nextDirection = DIRECTION_STILL;
-	        this.maze = maze;
 	        listeners = new LinkedList<DotEattenListener>();
 	        this.world = world;
+	        this.maze = maze;
 	       
 	 }  
 	 
@@ -74,10 +75,10 @@ public class Cat {
 	    } 	 
 	
 	 private boolean canMoveInDirection(int dir) {
-		    Maze maze = world.getMaze();
+            Maze maze = world.getMaze();
 	    	int newRow = DIR_OFFSETS[dir][1]+getRow();  
 	        int newCol = DIR_OFFSETS[dir][0]+getColumn(); 
-	        
+	      
 	        if(newRow <= 0 || newCol<= 0){
 	        	return false;
 	        } else if(maze.Border(newRow,newCol)){
@@ -109,7 +110,6 @@ public class Cat {
 	 public void update() {
 		    Maze maze = world.getMaze();
 		    pos_w = world.getWood().getPosition();
-		    Add_E1();
 	        if(canMoveInDirection(nextDirection)) {
 	             currentDirection = nextDirection;
 	             
@@ -122,7 +122,15 @@ public class Cat {
 		        	CatinBase = true;
 		         }
 	             
-	             if(currentDirection == 1 || checkcatonmelon()) {
+	             if(currentDirection == 1 && check_one_jump == 0) {
+	            	 Jump = true;
+	            	 Status = false;
+	                 check_one_jump = 1;
+	             } else if(currentDirection != 1) {
+	            	 check_one_jump = 0;
+	             }
+	             
+	             if(checkcatonmelon()) {
 	            	 Jump = true;
 	            	 Status = false;
 	             }
@@ -146,6 +154,7 @@ public class Cat {
 	        } else {
 	             currentDirection = DIRECTION_STILL; 	
 	        }        
+	        CheckBorder();
 	        move(currentDirection); 
 	        
 	 }
@@ -155,12 +164,14 @@ public class Cat {
 	 }
 	 
 	 public boolean checkcatonmelon() {
+		 this.world = world;
 		 for(int i=0;i<10;i++) {
-		  if(worldRenderer.Check_E[i]) {		  
+		  if(world.Check_E[i]) {		  
 		     Vector2 pos = world.getEnamy(i).getPosition();
-		     if((Math.abs(position.y - pos.y) < 40) && (Math.abs(position.x - pos.x) < 40)) {
+		     if((pos.y-position.y < 40 && pos.y-position.y >0 ) && (Math.abs(position.x - pos.x) < 40)) {
 			    world.increaseScore();
-			    remove[i] = true;
+			    world.Remove_E(i);
+                world.Check_E[i] = false; 
 			    return true;
 	   	     }  else {
 		       return false;
@@ -178,29 +189,12 @@ public class Cat {
 	     }
 	 }
 	 
-	 public boolean Remove(int i) {
-		 return remove[i];
+	 public void CheckBorder() {
+		 if(position.x > 1100) {
+	        	position.x -= 10;
+	        } else if (position.x <= 20) {
+	        	position.x += 10;
+	        }
 	 }
 	 
-	 public void Reset_remove(int i) {
-	     remove[i] = false;	 
-	 }
-	 
-	 public void Add_E1() {
-		 int i = (int)(Math.random()*10)%10;
-	     if(worldRenderer.RANDOM > 100) {
-	    	 worldRenderer.Check_E[i] = true;
-	    	 worldRenderer.RANDOM =0;
-	     }
-		 ++worldRenderer.RANDOM;
-		 for(int j=0;j<10;j++) {
-		    	if(worldRenderer.Check_E[j] && (world.getEnamy(j) != null)) {
-		    		worldRenderer.pos_E[j] = world.getEnamy(j).getPosition();
-			    }
-		    	if(worldRenderer.Check_E[j] && (world.getEnamy(j) == null)) {
-		    		world.Reset_E(j);
-		    		worldRenderer.pos_E[j] = world.getEnamy(j).getPosition();
-		    	}
-		 }
-	 }
 }

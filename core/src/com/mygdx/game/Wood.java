@@ -9,11 +9,9 @@ public class Wood {
 	 public static int distance = 0; 
 	 private Vector2 position;
 	 private World world;
-	 private Maze maze;
 	 
 	 public Wood(int x, int y, World world) {
 		 position = new Vector2(x,y);
-	     this.maze = maze;
 	     this.world = world;	
 	 }
 	 

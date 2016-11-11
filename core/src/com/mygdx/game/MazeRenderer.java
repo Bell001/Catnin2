@@ -14,7 +14,7 @@ public class MazeRenderer {
 	 public MazeRenderer(SpriteBatch batch, Maze maze) {
 	        this.maze = maze;
 	        this.batch = batch;
-	        Border = new Texture("Border-Corner.png");  //ให้แทนด้วยสัญลักษณะใน maze R
+	        Border = new Texture("Border-Corner.png");  
 	        ItemImage = new Texture("ITEM1.png");
 	        BlockImage = new Texture("BOX-40.png");
 	        BackgroundImage = new Texture("BackGround2.png");
@@ -31,7 +31,7 @@ public class MazeRenderer {
 	                        (r * WorldRenderer.BLOCK_SIZE) - WorldRenderer.BLOCK_SIZE;
 	 
 	                if(maze.Border(r, c)) {
-//	                    batch.draw(ShadowImageRight, x, y);	       
+	                    batch.draw(Border, x, y);	       
 	                } else if(maze.hasBlockAt(r,c)){
 	                	batch.draw(BlockImage, x, y);
 	                } else if(maze.hasItemAt(r, c)) {
