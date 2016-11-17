@@ -1,52 +1,61 @@
 package com.mygdx.game;
 
+//import com.mygdx.game.GameScreen.STATE;
+
 public class World {
 	public static int RANDOM = 0;
+	public static boolean Check_E[] = {false,false,false,false,false,false,false,false,false,false};
 	private Cat cat;
     private CatNin catNin;
     private WorldRenderer worldRenderer;
-    private Enamy[] enamy = new Enamy[10];
-    public static boolean Check_E[] = {false,false,false,false,false,false,false,false,false,false};
+    private Enamy enamy;
+    private Item_Fish item_Fish;
     private Wood wood;
+    private Wood wood2;
     private Maze maze;
+    private FishFly_B fishFly_B;
     private int score;
  
     World(CatNin catNin) {
         this.catNin = catNin;
         score = 0; 
-    	maze = new Maze();                
+    	maze = new Maze();      
+    	fishFly_B = new FishFly_B(1000,500,this);
         cat = new Cat(562,135,this);
-        for(int i=0;i<10;i++) {
-        	if(i%2 == 0) {
-        		enamy[i] = new Enamy(350,200,this);
-        	} else {
-        		enamy[i] = new Enamy(700,200,this);
-        	}
-        }  
+        enamy = new Enamy(this);
         wood = new Wood(450,400,this);
+        wood2 = new Wood(700,600,this);
+        item_Fish = new Item_Fish(500,600,this);
+        
     }
     
     Wood getWood() {
     	return wood;
     }
     
-    Enamy getEnamy(int i) {
-    	return enamy[i];
+    
+    Wood getWood2() {
+    	return wood2;
     }
     
-    public void Reset_E(int i) {
-    	if(enamy[i] == null) {
-    	       if(i%2 == 0) {
-    	        		enamy[i] = new Enamy(350,200,this);
-    	       } else {
-    	        		enamy[i] = new Enamy(700,200,this);
-    	       }
-    	}
+    FishFly_B getflyfish() {
+        return fishFly_B;
     }
     
-    public void Remove_E(int i) {
-    	enamy[i] = null;
+  
+    
+    Enamy getEnamy() {
+    	return enamy;
     }
+    
+    Maze getMaze() {
+        return maze;
+    }
+    
+    Item_Fish getFish() {
+    	return item_Fish;
+    }
+
     
     Cat getCat() {
         return cat;
@@ -54,18 +63,13 @@ public class World {
     
     public void update(float delta) {
     	wood.update();  
+    	wood2.update();
     	Add_E1();    
-        for(int i=0;i<10;i++) {
-            if(Check_E[i] && (enamy[i] != null)) {	
-               enamy[i].update();
-            }
-        }
+        enamy.update();
+        fishFly_B.update1();
         cat.update();
     }
     
-    Maze getMaze() {
-        return maze;
-    }
     
     public void increaseScore() {
         score += 1;
@@ -77,16 +81,16 @@ public class World {
     
 	public void Add_E1(){
 		 int i = (int)(Math.random()*10)%10;
-	     if(RANDOM > 400) {
+	     if(RANDOM > 200) {
 	    	 Check_E[i] = true;
 	    	 RANDOM =0;
 	     }
 		 ++RANDOM;
 		 for(int j=0;j<10;j++) {
-		    	if(Check_E[j] && (getEnamy(j) == null)) {
-		    		Reset_E(j);
-		    		worldRenderer.pos_E[j] = getEnamy(j).getPosition();
+		    	if(Check_E[j] && (enamy.enamy_in_class[j] == 0)) {
+		    		enamy.Reverse_E(j);
+		    		worldRenderer.pos_E[j] = enamy.getPosition(j);
 		    	}
 		 }
 	 }
-}
+} 

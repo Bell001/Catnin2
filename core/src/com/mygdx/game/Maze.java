@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 public class Maze {
 	
-	private String[] MAP = new String [] {
+	String[] MAP = new String [] {
             "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
             "B..........................................................B",
             "B..........................................................B",
@@ -47,7 +47,10 @@ public class Maze {
     };
 	private int height;
     private int width;
+    private World world;
+    private Cat cat;
     private boolean [][] hasItem;
+	boolean OUTBOX = false;
  
     public Maze() {
         height = MAP.length;
@@ -85,7 +88,23 @@ public class Maze {
     }
     
     public boolean hasBlockAt(int r, int c) {
-        return MAP[r].charAt(c) == '-';
+    	if(removeBox()) {
+          return MAP[r].charAt(c) == '-';
+    	} else {
+    	  return false;
+    	}
+    }
+    
+    public boolean hasFishAt(int r, int c) {
+    	return MAP[r].charAt(c) == 'F';
+    }
+    
+    public boolean removeBox() {
+    	if(OUTBOX) {
+    		return false;
+    	} else {
+    		return true;
+    	}
     }
 
 }
