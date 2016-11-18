@@ -63,7 +63,7 @@ public class WorldRenderer {
 	    HP3 = new Texture("HP-MIN.png");
 	    HP4 = new Texture("HP-Over.png");
 	    fishFly_Big = new Texture("FishBig_Fly.png");
-	    Enamy1 = new Texture("Melon1.png");
+	    Enamy1 = new Texture("Melon2.png");
 	    WoodImage = new Texture("Boxver3.jpg");
 	    fishfly_bomb = new Texture("Bomb.png");
 	    mazeRenderer = new MazeRenderer(catNin.batch, world.getMaze());
@@ -127,8 +127,8 @@ public class WorldRenderer {
 	}
 	
 	public void draw_Wood() {
-		batch.draw(WoodImage , pos_W.x,CatNin.HEIGHT -  pos_W.y );
-		batch.draw(WoodImage , pos_W2.x,CatNin.HEIGHT -  pos_W2.y );
+		batch.draw(WoodImage , pos_W.x-20,CatNin.HEIGHT -  pos_W.y );
+		batch.draw(WoodImage , pos_W2.x-20,CatNin.HEIGHT -  pos_W2.y );
 	}
 	
 	public void draw_Enamy() {

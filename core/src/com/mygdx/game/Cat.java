@@ -172,7 +172,7 @@ public class Cat {
 		 for(int i=0;i<10;i++) {
 		  if(world.Check_E[i]) {		  
 		     pos = world.getEnamy().getPosition(i);
-		     if((pos.y-position.y < 40 && pos.y-position.y >0 ) && (Math.abs(position.x - pos.x) < 40)) {
+		     if((pos.y-position.y < 150 && pos.y-position.y >0 ) && (Math.abs(position.x - pos.x) < 150)) {
 			    world.increaseScore();
 			    world.getEnamy().Remove_E(i);
                 world.Check_E[i] = false; 
