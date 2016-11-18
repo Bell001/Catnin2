@@ -4,20 +4,24 @@ package com.mygdx.game;
 
 public class World {
 	public static int RANDOM = 0;
+	public static int HpCat = 3;
 	public static boolean Check_E[] = {false,false,false,false,false,false,false,false,false,false};
 	private Cat cat;
     private CatNin catNin;
+    boolean gameover = false;
     private WorldRenderer worldRenderer;
     private Enamy enamy;
     private Item_Fish item_Fish;
     private Wood wood;
     private Wood wood2;
     private Maze maze;
+    private GameScreen gamescreen;
     private FishFly_B fishFly_B;
-    private int score;
+    int score;
  
     World(CatNin catNin) {
         this.catNin = catNin;
+        this.gamescreen = gamescreen;
         score = 0; 
     	maze = new Maze();      
     	fishFly_B = new FishFly_B(1000,500,this);
@@ -25,8 +29,7 @@ public class World {
         enamy = new Enamy(this);
         wood = new Wood(450,400,this);
         wood2 = new Wood(700,600,this);
-        item_Fish = new Item_Fish(500,600,this);
-        
+        item_Fish = new Item_Fish(500,600,this);     
     }
     
     Wood getWood() {
@@ -74,6 +77,18 @@ public class World {
     public void increaseScore() {
         score += 1;
     }
+    
+    public void decreaseHp() {
+    	HpCat -= 1;
+    	if(HpCat == 0) {
+    		gameover = true;
+    		setOver();
+    	}
+    }
+    
+    public void increaseHp() {
+    	HpCat += 1;
+    }
 
     public int getScore() {
         return score;
@@ -92,5 +107,10 @@ public class World {
 		    		worldRenderer.pos_E[j] = enamy.getPosition(j);
 		    	}
 		 }
+	 }
+	
+	
+	 public boolean setOver() {
+	    	return gameover;
 	 }
 } 

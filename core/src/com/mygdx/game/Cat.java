@@ -23,6 +23,7 @@ public class Cat {
 	 public static Vector2 pos_w;
 	 public static Vector2 pos_w2;
 	 public static Vector2 pos_FB;
+	 private Vector2 base_position = new Vector2(562,100);
 	 public static boolean CatinBase = true;
 	 public static double ValueDown = 1.02;
 	 public static double c = 10; //counter
@@ -134,6 +135,12 @@ public class Cat {
 		        	CatinBase = true;
 		         }
 	             
+	             if(position.y > 760) {
+	            	 world.decreaseHp();
+	            	 setcat();
+	            	 ValueDown = 1.2;
+	             }
+	             
 	             Jump();
 	             
 	             if(maze.hasItemAt(getRow(), getColumn())){
@@ -234,6 +241,11 @@ public class Cat {
 		 if(position.y > 243) {
 			 world.getMaze().OUTBOX = true;
 		 }
+	 }
+	 
+	 public void setcat() {
+		 position.x = base_position.x;
+		 position.y = base_position.y;
 	 }
 	 
 }

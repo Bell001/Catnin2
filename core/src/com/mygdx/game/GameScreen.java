@@ -12,19 +12,23 @@ import com.badlogic.gdx.math.Vector2;
 public class GameScreen extends ScreenAdapter {
 	private CatNin catNin;   
 	private Texture NinjaCat;
+	boolean Gameover = false;
 	private Cat cat;
 	private Texture Background_PAUSE;
-	public static boolean Pause= true;
+	private Texture Background_Over;
+	public static boolean Pause = true;
+	public static boolean Restart = false;
 	World world;
 	WorldRenderer worldRenderer;
 	 
     public GameScreen(CatNin catNin) {
+    	
     	Background_PAUSE = new Texture("Background_PAUSE.png");
+    	Background_Over = new Texture("Background_GAMEOVER.png");
     	this.catNin = catNin;
         world = new World(catNin);
         worldRenderer = new WorldRenderer(catNin,world);
-//        Sound backsound = Gdx.audio.newSound(Gdx.files.internal("data/Background-S.mp3"));
-//        backsound.play();
+
     }
     
     @Override
@@ -32,8 +36,20 @@ public class GameScreen extends ScreenAdapter {
     	
     	SpriteBatch batch = catNin.batch;
         Pause();
-       
-    	if(Pause) {
+        Gameover = world.setOver();
+        
+        if(Gameover) {
+        	
+        	batch.begin(); 
+   		    batch.draw(Background_Over, 0, 0);
+   		    batch.end();        
+   		    Restart();
+   		    if(Restart) {
+   		    	Resetgame();
+   		    	Restart = false;
+   		    }
+        
+        } else if(Pause) {
     		
     		update(delta);
     	
@@ -41,15 +57,19 @@ public class GameScreen extends ScreenAdapter {
     		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
     		worldRenderer.render(delta);
+    		
     	} else {
     		 		 
     		 batch.begin(); 
     		 batch.draw(Background_PAUSE, 0, 0);
     		 batch.end();
     		
-    		
     	}
         
+    }
+    
+    GameScreen getgamescreen() {
+    	return this;
     }
     
     private void update(float delta) {
@@ -88,6 +108,29 @@ public class GameScreen extends ScreenAdapter {
     			Pause = true;
     		}
     	}
+    }
+    
+    private void Restart() {
+    	if(Gdx.input.isKeyPressed(Keys.BACKSPACE)) {
+    		try {
+	            Thread.sleep(100);                 //1000 milliseconds is one second.
+	        } catch(InterruptedException ex) {
+	            Thread.currentThread().interrupt();
+	        }
+    		Restart = true;
+   		
+    	}
+    }
+    
+    void setOver() {
+    	Gameover = true;
+    }
+    
+    private void Resetgame() {
+    	Gameover = false;
+    	world.gameover = false;
+    	world.HpCat = 3;
+    	world.score =0;
     }
 }
   

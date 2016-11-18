@@ -36,6 +36,7 @@ public class WorldRenderer {
 	private Texture HP1;
 	private Texture HP2;
 	private Texture HP3;
+	private Texture HP4;
 	private Texture Enamy1;
 	private Texture WoodImage;	
 	private Texture fishFly_Big;
@@ -43,6 +44,7 @@ public class WorldRenderer {
 	private Cat cat;
 	private Menu menu;
 	private World world;
+	private GameScreen gamescreen;
 	private BufferedImage image = new BufferedImage(1200,800,BufferedImage.TYPE_INT_RGB);
 	private MazeRenderer mazeRenderer;
 	private BitmapFont font;
@@ -59,6 +61,7 @@ public class WorldRenderer {
 	    HP1 = new Texture("HP-MAX.png");
 	    HP2 = new Texture("HP-MID.png"); 
 	    HP3 = new Texture("HP-MIN.png");
+	    HP4 = new Texture("HP-Over.png");
 	    fishFly_Big = new Texture("FishBig_Fly.png");
 	    Enamy1 = new Texture("Melon1.png");
 	    WoodImage = new Texture("Boxver3.jpg");
@@ -79,7 +82,15 @@ public class WorldRenderer {
         draw_FishFly();
         font.draw(batch, "SCORE  " + world.getScore(), 100, 150);
         font.draw(batch, "HP " , 100, 100);
-        batch.draw(HP1 , 140, 80);
+        if(world.HpCat == 3) {
+        	batch.draw(HP1 , 140, 80);
+        } else if(world.HpCat == 2) {
+        	batch.draw(HP2 , 140, 80);
+        } else if(world.HpCat == 1) {
+        	batch.draw(HP3 , 140, 80);
+        } else if(world.HpCat == 0) {
+        	batch.draw(HP4 , 140, 80);;
+        }
         batch.end();
 
 	}
