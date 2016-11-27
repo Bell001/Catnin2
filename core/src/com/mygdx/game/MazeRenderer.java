@@ -16,7 +16,6 @@ public class MazeRenderer {
 		 
 	        this.maze = maze;
 	        this.batch = batch;
-//	        Border = new Texture("Border-Corner.png");  
 	        ItemImage = new Texture("ITEM1.png");
 	        BlockImage = new Texture("BOX-40.png");	        
 	        FishImage = new Texture("FISH_1.png");
@@ -34,9 +33,7 @@ public class MazeRenderer {
 	            	int x = c * WorldRenderer.BLOCK_SIZE;
 	                int y = CatNin.HEIGHT - (r * WorldRenderer.BLOCK_SIZE) - WorldRenderer.BLOCK_SIZE;
 	 
-	                if(maze.Border(r, c)) {
-//	                    batch.draw(Border, x, y);	       
-	                } else if(maze.hasBlockAt(r,c)){
+	                if(maze.hasBlockAt(r,c)){
 	                	batch.draw(BlockImage, x, y);
 	                } else if(maze.hasItemAt(r, c)) {
 	                    batch.draw(ItemImage, x, y);

@@ -24,9 +24,8 @@ public class WorldRenderer {
 	public static Vector2[] pos_E = new Vector2[10];
 	public static Vector2 pos_C;
 	public static Vector2 pos_W;
-	public static Vector2 pos_W2;
 	public static Vector2 pos_FB;
-
+    public static Vector2 pos_I;
 	private Enamy enamy;
 	private FishFly_B fishFly_B;
 	private CatNin catNin;
@@ -37,12 +36,12 @@ public class WorldRenderer {
 	private Texture HP2;
 	private Texture HP3;
 	private Texture HP4;
+	private Texture ItemBonus;
 	private Texture Enamy1;
 	private Texture WoodImage;	
 	private Texture fishFly_Big;
 	private Texture fishfly_bomb;
 	private Cat cat;
-	private Menu menu;
 	private World world;
 	private GameScreen gamescreen;
 	private BufferedImage image = new BufferedImage(1200,800,BufferedImage.TYPE_INT_RGB);
@@ -62,6 +61,7 @@ public class WorldRenderer {
 	    HP2 = new Texture("HP-MID.png"); 
 	    HP3 = new Texture("HP-MIN.png");
 	    HP4 = new Texture("HP-Over.png");
+	    ItemBonus = new Texture("EnamyWeapon-Snowball.png");
 	    fishFly_Big = new Texture("FishBig_Fly.png");
 	    Enamy1 = new Texture("Melon2.png");
 	    WoodImage = new Texture("Boxver3.jpg");
@@ -80,6 +80,8 @@ public class WorldRenderer {
         draw_Wood();
         draw_Enamy();
         draw_FishFly();
+        draw_Item();
+        font.draw(batch, "HIGH_SCORE:   "+world.High_Point, 30, 950);
         font.draw(batch, "SCORE  " + world.getScore(), 100, 150);
         font.draw(batch, "HP " , 100, 100);
         if(world.HpCat == 3) {
@@ -98,9 +100,8 @@ public class WorldRenderer {
 	public void getPosition() {
 	    pos_C = world.getCat().getPosition();
 		pos_W = world.getWood().getPosition();
-		pos_W2 = world.getWood2().getPosition();
         pos_FB = world.getflyfish().getPosition();
-      
+        pos_I = world.getItem().getPosition();
 		for(int j=0;j<10;j++) {
 		 if(world.Check_E[j]) {
 			 pos_E[j] = world.getEnamy().getPosition(j);
@@ -128,7 +129,6 @@ public class WorldRenderer {
 	
 	public void draw_Wood() {
 		batch.draw(WoodImage , pos_W.x-20,CatNin.HEIGHT -  pos_W.y );
-		batch.draw(WoodImage , pos_W2.x-20,CatNin.HEIGHT -  pos_W2.y );
 	}
 	
 	public void draw_Enamy() {
@@ -137,6 +137,12 @@ public class WorldRenderer {
 	             batch.draw(Enamy1 , pos_E[j].x, CatNin.HEIGHT - pos_E[j].y );
 	          }
 	        }  
+	}
+	
+	public void draw_Item() {
+	  if(world.getItem().haveitem) {
+		batch.draw(ItemBonus , pos_I.x,CatNin.HEIGHT -  pos_I.y );
+	  }
 	}
 	
 	public void draw_FishFly() {

@@ -21,7 +21,6 @@ public class Cat {
 	 private LinkedList<DotEattenListener> listeners;
 	 private Sound jumpsound = Gdx.audio.newSound(Gdx.files.internal("data/Jump.mp3")); 
 	 public static Vector2 pos_w;
-	 public static Vector2 pos_w2;
 	 public static Vector2 pos_FB;
 	 private Vector2 base_position = new Vector2(562,100);
 	 public static boolean CatinBase = true;
@@ -94,7 +93,7 @@ public class Cat {
 	        	CatinBase = true;
 	        	ValueDown = 1.2;
 	            return false;
-	        } else if(checkcatinwood(pos_w) || checkcatinwood(pos_w2)){
+	        } else if(checkcatinwood(pos_w)){
 	        	position.x += SPEED * DIR_OFFSETS[dir][0];
 	        	CatinBase = true;
 	        	ValueDown = 1.2;
@@ -121,7 +120,6 @@ public class Cat {
 	 public void update() {
 		    Maze maze = world.getMaze();
 		    pos_w = world.getWood().getPosition();
-		    pos_w2 = world.getWood2().getPosition();
 		    pos_FB = world.getflyfish().getPosition();
 	        if(canMoveInDirection(nextDirection)) {
 	             currentDirection = nextDirection;
@@ -137,29 +135,20 @@ public class Cat {
 	             
 	             if(position.y > 760) {
 	            	 world.decreaseHp();
+	            	 Status = true;
+		             Jump = false;
 	            	 setcat();
 	            	 ValueDown = 1.2;
 	             }
 	             
-	             Jump();
-	             
-	             if(maze.hasItemAt(getRow(), getColumn())){
-	                   maze.removeItem1At(getRow(),getColumn());
-	                   world.increaseScore();
-	                   notifyDotEattenListeners();
-	             }
+	             Jump();	          
+	             Check_Item();
 	                    
 	        } else {
-	        	if(checkcatinwood(pos_w) || checkcatinwood(pos_w2) || checkcatonfishfly(pos_FB)){
-	        	      check_one_jump = 0;
-	        	      Jump();
-	        	}
 	            currentDirection = DIRECTION_STILL; 	
 	        }        
 	        CheckBorder();
 	        move(currentDirection); 
-	        remove_StartBox();
-	        
 	 }
 	 
 	 public boolean checkcatinbase() {
@@ -186,7 +175,7 @@ public class Cat {
 	 }
 	 
 	 public boolean checkcatonfishfly(Vector2 pos) {
-		 if(Math.abs(position.y-pos.y) < 90 && Math.abs(position.x-pos.x) < 180) {
+		 if((position.y-pos.y < 20 && position.y-pos.y > 0) && (Math.abs(position.x - pos.x) < 150)) {
 			 return true;
 		 } else {
 		     return false;
@@ -194,7 +183,7 @@ public class Cat {
 	 }
 	 
 	 public boolean checkcatinwood(Vector2 pos){
-		 if((Math.abs(position.y-pos.y) < 20) && (Math.abs(position.x-pos.x) < 100)) {
+		 if((pos.y-position.y < 20 && position.y-pos.y > 0) && (Math.abs(position.x - pos.x) < 200)) {
 			 return true;	 
 	     } else {
 	    	 return false;
@@ -206,10 +195,14 @@ public class Cat {
 	        	position.x -= 10;
 	        } else if (position.x <= 20) {
 	        	position.x += 10;
+	        } else if (position.y < 0) {
+	        	System.out.print(position.y);
+	        	position.y += 40;
 	        }
 	 }
 	 
 	 public void Jump() {
+		 
 		 if(currentDirection == 1 && check_one_jump == 0){
 			 jumpsound.play(0.5f);
         	 Jump = true;
@@ -219,7 +212,7 @@ public class Cat {
         	 check_one_jump = 0;
          }
          
-         if(checkcatonmelon()) {
+         if(checkcatonmelon() || checkcatonfishfly(pos_FB) || checkcatinwood(pos_w)) {
         	 jumpsound.play(0.5f);
         	 Jump = true;
         	 Status = false;
@@ -227,9 +220,9 @@ public class Cat {
          
          if(Jump) {            
         	position.y += (int)(Math.sin(c)+Math.cos(c))*SPEED;
-	        	c += 0.03;
-	        	if((int)(Math.sin(c)+Math.cos(c))*SPEED > -2) {
-	        		c=10;
+	        	c += 0.0305;
+	        	if((int)(Math.sin(c)+Math.cos(c))*SPEED > -3) {
+	        		c= 10;
 	        		Status = true;
 	        		Jump = false;
 	        	}
@@ -237,10 +230,21 @@ public class Cat {
          
 	 }
 	 
-	 public void remove_StartBox() {
-		 if(position.y > 243) {
-			 world.getMaze().OUTBOX = true;
-		 }
+	 public void Check_Item() {
+		 Maze maze = world.getMaze();
+	     int newRow = getRow();  
+	     int newCol = getColumn(); 
+	     if(maze.hasItemAt(getRow(), getColumn())){
+             maze.removeItem1At(getRow(),getColumn());
+             world.BonusScore();
+             notifyDotEattenListeners();
+         }
+	     if(world.getItem().haveitem) {
+	    	 if(Math.abs(world.getItem().getPosition().x-position.x) < 10){
+	    		 world.getItem().removeitem();
+	    		 maze.change_mazeB();
+	    	 }
+	     }
 	 }
 	 
 	 public void setcat() {

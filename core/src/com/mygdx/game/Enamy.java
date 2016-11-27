@@ -18,7 +18,7 @@ public class Enamy {
 		    Vector2[] pos_E = new Vector2[10];
 		    for(int i=0;i<10;i++) {
 	        	if(i%2 == 0) {
-	        	    pos_E[i] = new Vector2(350,200);
+	        	    pos_E[i] = new Vector2(350,400);
 	        	} else {
 	        		pos_E[i] = new Vector2(700,200);
 	        	}
@@ -65,9 +65,9 @@ public class Enamy {
 	 public void Reverse_E(int j) {
 		 if(enamy_in_class[j] == 0) {
 		        	if(j%2 == 0) {
-		        		pos_E[j] = new Vector2(350,200);
+		        		pos_E[j] = new Vector2(350,500);
 		        	} else {
-		        		pos_E[j] = new Vector2(700,200);
+		        		pos_E[j] = new Vector2(700,500);
 		        	}
 		 }
 	 }
