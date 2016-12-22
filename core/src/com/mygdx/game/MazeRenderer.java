@@ -19,7 +19,7 @@ public class MazeRenderer {
 	        ItemImage = new Texture("ITEM1.png");
 	        BlockImage = new Texture("BOX-40.png");	        
 	        FishImage = new Texture("FISH_1.png");
-		    BackgroundImage = new Texture("BackGround_MAIN.png");
+		    BackgroundImage = new Texture("Background_MAIN.png");
 	        
 	 }
 	 
