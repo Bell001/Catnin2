@@ -30,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
 	 
     public GameScreen(CatNin catNin) {
     	
-    	Background_START = new Texture("STARTB.png");
+    	Background_START = new Texture("START.png");
     	Background_PAUSE = new Texture("Background_PAUSE.png");
     	Background_Over = new Texture("Background_GAMEOVER.png");
     	this.catNin = catNin;
